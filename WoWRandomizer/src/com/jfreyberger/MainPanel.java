@@ -102,7 +102,7 @@ public class MainPanel extends JPanel {
 				}
 				
 				//finally change the text to inform the user which race/class combination was chosen
-				lblWelcome.setText("You should play a: " + character.getRace() + " " + character.getCharClass());
+				lblWelcome.setText("You should play a: " + character.getRace() + " " + character.getSpec() + " " + character.getCharClass());
 			}
 		});
 		add(btnGo, BorderLayout.SOUTH);

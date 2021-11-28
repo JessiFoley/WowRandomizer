@@ -3,28 +3,28 @@ package com.jfreyberger;
 import java.util.Random;
 
 public class CharRandomizer {
-	/*
-	private static final String[] CLASS_LIST = {"Warrior","Paladin","Hunter","Rogue","Priest","Shaman","Mage","Warlock","Monk","Druid","Demon Hunter","Death Knight"};
-	private static final String[] A_RACE_LIST = {"Human", "Dwarf", "Night Elf", "Gnome", "Draenei", "Worgen", "Alliance Pandaren"};
-	private static final String[] A_ALLIED_RACE_LIST = {"Void Elf", "Lightforged Draenei", "Dark Iron Dwarf", "Kul Tiran", "Mechagnome"};
-	private static final String[] H_RACE_LIST = {"Orc", "Undead", "Tauren", "Troll", "Blood Elf", "Goblin", "Horde Pandaren"};
-	private static final String[] H_ALLIED_RACE_LIST = {"Nightborne", "Highmountain Tauren", "Mag\'har Orc", "Zandalari Troll", "Vulpera"};
-	*/
 	
 	public static String rollRace(String faction) {
-		String[] race = Database.getRace(faction, Filter.isPreferAR());
+		String[] raceList = null;
 		
-		return roll(race);
+		raceList = Database.getRace(faction);
+		
+		if (raceList == null)
+			return null;
+		else if (raceList.length < 2)
+			return raceList[0];
+		else
+			return roll(raceList);
 	}
 	
-	public static String rollClass(String charClass) {
-		return "Warrior";
-		//return roll(Database.getClass(charClass));
+	public static String rollClass(String spec, String race) {
+		return Database.getClassBySpec(spec, race);
 	}
 	
-	public static String rollSpec(String race) {
-		//return roll(Database.getSpec(race));
-		return "Fury";
+	public static String rollSpec(String role, String race) {
+		String[] specList = Database.getSpec(role, race);
+		
+		return roll(specList);
 	}
 	
 	public static String rollFaction(Boolean alliance, Boolean horde) {
@@ -40,6 +40,44 @@ public class CharRandomizer {
 			return "Alliance";
 		} else {
 			return "Horde";
+		}
+	}
+	
+	public static String rollRole()  {
+		Random rand = new Random();
+		
+		if ((Filter.isRoleDPS() && Filter.isRoleHealer() && Filter.isRoleTank()) || (!Filter.isRoleDPS() && !Filter.isRoleHealer() && !Filter.isRoleTank())) {
+			switch (rand.nextInt(3)) {
+			case 0:
+				return "tank";
+			case 1:
+				return "healer";
+			case 2:
+				return "dps";
+			default:
+				return "dps";
+			}
+		} else if (Filter.isRoleDPS() && Filter.isRoleHealer()) {
+			if (rand.nextInt(100) > 49)
+				return "dps";
+			else
+				return "healer";
+		} else if (Filter.isRoleDPS() && Filter.isRoleTank()) {
+			if (rand.nextInt(100) > 49)
+				return "dps";
+			else
+				return "tank";
+		} else if (Filter.isRoleHealer() && Filter.isRoleTank()) {
+			if (rand.nextInt(100) > 49)
+				return "healer";
+			else
+				return "tank";
+		} else if (Filter.isRoleTank()) {
+			return "tank";
+		} else if (Filter.isRoleHealer()) {
+			return "healer";
+		} else {
+			return "dps";
 		}
 	}
 	

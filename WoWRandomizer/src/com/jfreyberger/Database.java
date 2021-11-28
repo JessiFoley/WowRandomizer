@@ -1,6 +1,7 @@
 package com.jfreyberger;
 
 import java.sql.*;
+import java.util.Random;
 
 
 public class Database {
@@ -36,42 +37,8 @@ public class Database {
 	}
 	
 	private static String[] addAlliedRaces(String faction, String[] raceList) {
-		//Adds selected Alliance allied races if allied race is not preferred
-		if (faction.equals("Alliance") && !Filter.isPreferAR()) {
-			if (Filter.isARDIDwarves()) {
-				raceList = push("Dark Iron Dwarf", raceList);
-			}
-			if (Filter.isARVElves()) {
-				raceList = push("Void Elf", raceList);
-			}
-			if (Filter.isARLDraenei()) {
-				raceList = push("Lightforged Draenei", raceList);
-			}
-			if (Filter.isARKTHumans()) {
-				raceList = push("Kul Tiran", raceList);
-			}
-			if (Filter.isARMechagnomes()) {
-				raceList = push("Mechagnome", raceList);
-			}
-		//Adds selected Horde allied races if allied race is not preferred
-		} else if (faction.equals("Horde") && !Filter.isPreferAR()){
-			if (Filter.isARHTauren()) {
-				raceList = push("Highmountain Tauren", raceList);
-			}
-			if (Filter.isARMOrcs()) {
-				raceList = push("Mag\'har Orc", raceList);
-			}
-			if (Filter.isARNightborne()) {
-				raceList = push("Nightborne", raceList);
-			}
-			if (Filter.isARZTrolls()) {
-				raceList = push("Zandalari Troll", raceList);
-			}
-			if (Filter.isARVulpera()) {
-				raceList = push("Vulpera", raceList);
-			}
-		//Removes unselected Alliance allied races if allied race is preferred
-		} else if (faction.equals("Alliance") && Filter.isPreferAR()) {
+		//Adds selected Alliance allied races
+		if (faction.equals("Alliance")) {
 			if (!Filter.isARDIDwarves()) {
 				raceList = pop("Dark Iron Dwarf", raceList);
 			}
@@ -87,8 +54,17 @@ public class Database {
 			if (!Filter.isARMechagnomes()) {
 				raceList = pop("Mechagnome", raceList);
 			}
-		//Removes unselected Horde allied races if allied race is preferred
-		} else if (faction.equals("Horde") && Filter.isPreferAR()) {
+			if (Filter.isPreferAR() && raceList.length > 7) {
+				raceList = pop("Human", raceList);
+				raceList = pop("Dwarf", raceList);
+				raceList = pop("Night Elf", raceList);
+				raceList = pop("Gnome", raceList);
+				raceList = pop("Draenei", raceList);
+				raceList = pop("Worgen", raceList);
+				raceList = pop("Alliance Pandaren", raceList);
+			}
+		//Removes unselected Horde allied races
+		} else if (faction.equals("Horde")) {
 			if (!Filter.isARHTauren()) {
 				raceList = pop("Highmountain Tauren", raceList);
 			}
@@ -104,6 +80,15 @@ public class Database {
 			if (!Filter.isARVulpera()) {
 				raceList = pop("Vulpera", raceList);
 			}
+			if (Filter.isPreferAR() && raceList.length > 7) {
+				raceList = pop("Orc", raceList);
+				raceList = pop("Undead", raceList);
+				raceList = pop("Tauren", raceList);
+				raceList = pop("Troll", raceList);
+				raceList = pop("Blood Elf", raceList);
+				raceList = pop("Goblin", raceList);
+				raceList = pop("Horde Pandaren", raceList);
+			}
 		}
 		
 		return raceList;
@@ -111,7 +96,7 @@ public class Database {
 	
 	/*
 	 * Adds a new String to a String array and returns the modified array
-	 */
+	 *
 	private static String[] push(String addition, String[] oldStringArray) {
 		String[] newStringArray = new String[oldStringArray.length + 1];
 		
@@ -119,29 +104,47 @@ public class Database {
 		newStringArray[newStringArray.length-1] = addition;
 		
 		return newStringArray;
-	}
+	}*/
 	
 	/*
 	 * Removes a String from a String array and returns the modified array
 	 */
 	private static String[] pop(String subtraction, String[] oldStringArray) {
-		String[] newStringArray = new String[oldStringArray.length - 1];
+		String[] newStringArray = null;
 		int count = 0;
+		boolean found = false;
 		
-		for (int i = 0; i < oldStringArray.length; i++) {
-			if (!oldStringArray[i].equals(subtraction)) {
-				newStringArray[count] = oldStringArray[i];
-				count++;
+		if (oldStringArray != null && subtraction != null) {
+			for (int i = 0; i < oldStringArray.length; i++) {
+				if (oldStringArray[i].equals(subtraction)) {
+					newStringArray = new String[oldStringArray.length - 1];
+					found = true;
+				}
 			}
+			
+			if (found) {
+				for (int i = 0; i < oldStringArray.length; i++) {
+					if (!oldStringArray[i].equals(subtraction)) {
+						newStringArray[count] = oldStringArray[i];
+						count++;
+					}
+				}
+				
+				return newStringArray;
+			} else {
+				return oldStringArray;
+			}
+		} else {
+			return oldStringArray;
 		}
 		
-		return newStringArray;
+		
 	}
 	
 	/*
 	 * Gets the races list from the database based on chosen faction and allied race status
 	 */
-	public static String[] getRace(String faction, boolean allied) {
+	public static String[] getRace(String faction) {
 		String[] returnRace = null;
 		String[] raceList = null;
 		
@@ -151,7 +154,7 @@ public class Database {
 		try {
 			PreparedStatement stmt;
 			
-			stmt = conn.prepareStatement("SELECT race FROM \"tfreyberger/WoWRandomizer\".\"racelist\" WHERE FACTION LIKE \'" + faction + "\' AND ALLIED = " + allied, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			stmt = conn.prepareStatement("SELECT race FROM \"tfreyberger/WoWRandomizer\".\"racelist\" WHERE FACTION LIKE \'" + faction + "\'", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			
 			ResultSet rs = stmt.executeQuery();
 
@@ -175,24 +178,77 @@ public class Database {
 	}
 	
 	/*
-	 * Gets the class list from the database based on spec
-	 */
-	public static String[] getClass(String spec) {
-		return null;
-	}
-	
-	/*
 	 * Gets the spec list from the database based on race
 	 */
-	public static String[] getSpec(String race) {
-		return null;
+	public static String[] getSpec(String role, String race) {
+		String[] specList = null;
+		Connection conn = Connect();
+		
+		race = race.replace(' ', '_');
+		race = race.replace("\'", "");
+		try {
+			PreparedStatement stmt;
+			
+			stmt = conn.prepareStatement("SELECT spec FROM \"tfreyberger/WoWRandomizer\".\"classlist\" WHERE role LIKE \'" + role + "\' AND " + race + " = TRUE", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			rs.last();
+			specList = new String [rs.getRow()];
+			rs.first();
+			
+			for(int i = 0; i < specList.length; i++) {
+				specList[i] = rs.getString(1);
+				rs.next();
+			}
+		} catch (SQLException e) {
+			throw new Error("Problem: Spec", e);
+		}
+		
+		//close database connection
+		closeConnection(conn);
+		
+		return specList;
 	}
 	
 	/*
-	 * Gets the role list from the database based on selected role
+	 * Gets the class list from the database based on selected role
 	 */
-	public static String[] getRole(String role) {
-		return null;
+	public static String getClassBySpec(String spec, String race) {
+		String[] classList = null;
+		Connection conn = Connect();
+		
+		race = race.replace(' ', '_');
+		race = race.replace("\'", "");
+		try {
+			PreparedStatement stmt;
+			
+			stmt = conn.prepareStatement("SELECT class FROM \"tfreyberger/WoWRandomizer\".\"classlist\" WHERE spec LIKE \'" + spec + "\' AND " + race + " = TRUE", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			rs.last();
+			classList = new String [rs.getRow()];
+			rs.first();
+			
+			for(int i = 0; i < classList.length; i++) {
+				classList[i] = rs.getString(1);
+				rs.next();
+			}
+		} catch (SQLException e) {
+			throw new Error("Problem: Class", e);
+		}
+		
+		//close database connection
+		closeConnection(conn);
+		
+		if (classList.length > 1) {
+			Random rand = new Random();
+			
+			return classList[rand.nextInt(classList.length)];
+		} else {
+			return classList[0];
+		}
 	}
 
 }

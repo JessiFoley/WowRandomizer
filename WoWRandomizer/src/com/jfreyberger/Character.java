@@ -10,9 +10,17 @@ public class Character {
 	public Character() {
 		setFaction(CharRandomizer.rollFaction(Filter.isFacAlliance(), Filter.isFacHorde()));
 		setRace(CharRandomizer.rollRace(getFaction()));
-		setRole("tank");
-		setSpec(CharRandomizer.rollSpec(getRace()));
-		setCharClass(CharRandomizer.rollClass(getSpec()));
+		setRole(CharRandomizer.rollRole());
+		setSpec(CharRandomizer.rollSpec(getRole(), getRace()));
+		setCharClass(CharRandomizer.rollClass(getSpec(), getRace()));
+
+		
+		while (getRace() == null) {
+			System.out.println("race not selected, trying again");
+			setRace(CharRandomizer.rollRace(getFaction()));
+			setSpec(CharRandomizer.rollSpec(getRole(), getRace()));
+			setCharClass(CharRandomizer.rollClass(getSpec(), getRace()));
+		}
 	}
 
 	public String getFaction() {
