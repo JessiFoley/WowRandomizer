@@ -8,16 +8,12 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.border.EtchedBorder;
-import java.awt.GridBagLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.ImageIcon;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
@@ -76,7 +72,7 @@ public class MainWindow {
 		JMenu mnRole = new JMenu("Role");
 		mnFilters.add(mnRole);
 		
-		JCheckBoxMenuItem chckbxmntmTank = new JCheckBoxMenuItem("Tank");
+		StayOpenCheckBoxMenuItem chckbxmntmTank = new StayOpenCheckBoxMenuItem("Tank");
 		chckbxmntmTank.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setRoleTank(chckbxmntmTank.isSelected());
@@ -85,7 +81,7 @@ public class MainWindow {
 		chckbxmntmTank.setSelected(true);
 		mnRole.add(chckbxmntmTank);
 		
-		JCheckBoxMenuItem chckbxmntmHealer = new JCheckBoxMenuItem("Healer");
+		StayOpenCheckBoxMenuItem chckbxmntmHealer = new StayOpenCheckBoxMenuItem("Healer");
 		chckbxmntmHealer.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setRoleHealer(chckbxmntmHealer.isSelected());
@@ -94,7 +90,7 @@ public class MainWindow {
 		chckbxmntmHealer.setSelected(true);
 		mnRole.add(chckbxmntmHealer);
 		
-		JCheckBoxMenuItem chckbxmntmDPS = new JCheckBoxMenuItem("DPS");
+		StayOpenCheckBoxMenuItem chckbxmntmDPS = new StayOpenCheckBoxMenuItem("DPS");
 		chckbxmntmDPS.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setRoleDPS(chckbxmntmDPS.isSelected());
@@ -106,7 +102,7 @@ public class MainWindow {
 		JMenu mnFaction = new JMenu("Faction");
 		mnFilters.add(mnFaction);
 		
-		JCheckBoxMenuItem chckbxmntmAlliance = new JCheckBoxMenuItem("Alliance");
+		StayOpenCheckBoxMenuItem chckbxmntmAlliance = new StayOpenCheckBoxMenuItem("Alliance");
 		chckbxmntmAlliance.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setFacAlliance(chckbxmntmAlliance.isSelected());
@@ -115,7 +111,7 @@ public class MainWindow {
 		chckbxmntmAlliance.setSelected(true);
 		mnFaction.add(chckbxmntmAlliance);
 		
-		JCheckBoxMenuItem chckbxmntmHorde = new JCheckBoxMenuItem("Horde");
+		StayOpenCheckBoxMenuItem chckbxmntmHorde = new StayOpenCheckBoxMenuItem("Horde");
 		chckbxmntmHorde.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setFacHorde(chckbxmntmHorde.isSelected());
@@ -127,7 +123,7 @@ public class MainWindow {
 		JMenu mnRace = new JMenu("Allied Race");
 		mnFilters.add(mnRace);
 		
-		JCheckBoxMenuItem chckbxmntmPreferAR = new JCheckBoxMenuItem("Prefer Allied Race");
+		StayOpenCheckBoxMenuItem chckbxmntmPreferAR = new StayOpenCheckBoxMenuItem("Prefer Allied Race");
 		chckbxmntmPreferAR.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setPreferAR(chckbxmntmPreferAR.isSelected());
@@ -138,7 +134,7 @@ public class MainWindow {
 		JMenu mnARFacA = new JMenu("Alliance");
 		mnRace.add(mnARFacA);
 		
-		JCheckBoxMenuItem chckbxmntmDarkIronDwarves = new JCheckBoxMenuItem("Dark Iron Dwarves");
+		StayOpenCheckBoxMenuItem chckbxmntmDarkIronDwarves = new StayOpenCheckBoxMenuItem("Dark Iron Dwarves");
 		chckbxmntmDarkIronDwarves.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setARDIDwarves(chckbxmntmDarkIronDwarves.isSelected());
@@ -147,7 +143,7 @@ public class MainWindow {
 		mnARFacA.add(chckbxmntmDarkIronDwarves);
 		chckbxmntmDarkIronDwarves.setSelected(true);
 		
-		JCheckBoxMenuItem chckbxmntmKulTirasHuman = new JCheckBoxMenuItem("Kul Tiras Humans");
+		StayOpenCheckBoxMenuItem chckbxmntmKulTirasHuman = new StayOpenCheckBoxMenuItem("Kul Tirans");
 		chckbxmntmKulTirasHuman.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setARKTHumans(chckbxmntmKulTirasHuman.isSelected());
@@ -156,7 +152,7 @@ public class MainWindow {
 		mnARFacA.add(chckbxmntmKulTirasHuman);
 		chckbxmntmKulTirasHuman.setSelected(true);
 		
-		JCheckBoxMenuItem chckbxmntmLightforgedDraenei = new JCheckBoxMenuItem("Lightforged Draenei");
+		StayOpenCheckBoxMenuItem chckbxmntmLightforgedDraenei = new StayOpenCheckBoxMenuItem("Lightforged Draenei");
 		chckbxmntmLightforgedDraenei.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setARLDraenei(chckbxmntmLightforgedDraenei.isSelected());
@@ -165,7 +161,7 @@ public class MainWindow {
 		mnARFacA.add(chckbxmntmLightforgedDraenei);
 		chckbxmntmLightforgedDraenei.setSelected(true);
 		
-		JCheckBoxMenuItem chckbxmntmMechagnome = new JCheckBoxMenuItem("Mechagnomes");
+		StayOpenCheckBoxMenuItem chckbxmntmMechagnome = new StayOpenCheckBoxMenuItem("Mechagnomes");
 		chckbxmntmMechagnome.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setARMechagnomes(chckbxmntmMechagnome.isSelected());
@@ -174,7 +170,7 @@ public class MainWindow {
 		mnARFacA.add(chckbxmntmMechagnome);
 		chckbxmntmMechagnome.setSelected(true);
 		
-		JCheckBoxMenuItem chckbxmntmVoidElves = new JCheckBoxMenuItem("Void Elves");
+		StayOpenCheckBoxMenuItem chckbxmntmVoidElves = new StayOpenCheckBoxMenuItem("Void Elves");
 		chckbxmntmVoidElves.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setARVElves(chckbxmntmVoidElves.isSelected());
@@ -186,7 +182,7 @@ public class MainWindow {
 		JMenu mnARFacH = new JMenu("Horde");
 		mnRace.add(mnARFacH);
 		
-		JCheckBoxMenuItem chckbxmntmHighmountainTauren = new JCheckBoxMenuItem("Highmountain Tauren");
+		StayOpenCheckBoxMenuItem chckbxmntmHighmountainTauren = new StayOpenCheckBoxMenuItem("Highmountain Tauren");
 		chckbxmntmHighmountainTauren.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setARHTauren(chckbxmntmHighmountainTauren.isSelected());
@@ -195,7 +191,7 @@ public class MainWindow {
 		mnARFacH.add(chckbxmntmHighmountainTauren);
 		chckbxmntmHighmountainTauren.setSelected(true);
 		
-		JCheckBoxMenuItem chckbxmntmMagharOrcs = new JCheckBoxMenuItem("Mag'har Orcs");
+		StayOpenCheckBoxMenuItem chckbxmntmMagharOrcs = new StayOpenCheckBoxMenuItem("Mag'har Orcs");
 		chckbxmntmMagharOrcs.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setARMOrcs(chckbxmntmMagharOrcs.isSelected());
@@ -204,7 +200,7 @@ public class MainWindow {
 		mnARFacH.add(chckbxmntmMagharOrcs);
 		chckbxmntmMagharOrcs.setSelected(true);
 		
-		JCheckBoxMenuItem chckbxmntmNightborne = new JCheckBoxMenuItem("Nightborne");
+		StayOpenCheckBoxMenuItem chckbxmntmNightborne = new StayOpenCheckBoxMenuItem("Nightborne");
 		chckbxmntmNightborne.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setARNightborne(chckbxmntmNightborne.isSelected());
@@ -213,7 +209,7 @@ public class MainWindow {
 		mnARFacH.add(chckbxmntmNightborne);
 		chckbxmntmNightborne.setSelected(true);
 		
-		JCheckBoxMenuItem chckbxmntmVulpera = new JCheckBoxMenuItem("Vulpera");
+		StayOpenCheckBoxMenuItem chckbxmntmVulpera = new StayOpenCheckBoxMenuItem("Vulpera");
 		chckbxmntmVulpera.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setARVulpera(chckbxmntmVulpera.isSelected());
@@ -222,7 +218,7 @@ public class MainWindow {
 		mnARFacH.add(chckbxmntmVulpera);
 		chckbxmntmVulpera.setSelected(true);
 		
-		JCheckBoxMenuItem chckbxmntmZandalariTrolls = new JCheckBoxMenuItem("Zandalari Trolls");
+		StayOpenCheckBoxMenuItem chckbxmntmZandalariTrolls = new StayOpenCheckBoxMenuItem("Zandalari Trolls");
 		chckbxmntmZandalariTrolls.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Filter.setARZTrolls(chckbxmntmZandalariTrolls.isSelected());
@@ -232,6 +228,7 @@ public class MainWindow {
 		chckbxmntmZandalariTrolls.setSelected(true);
 	}
 
+	@SuppressWarnings("unused")
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
