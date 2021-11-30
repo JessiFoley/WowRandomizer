@@ -1,7 +1,6 @@
 package com.jfreyberger;
 
 import java.awt.*;
-import java.awt.image.*;
 import javax.swing.*;
 
 /*
@@ -15,6 +14,7 @@ import javax.swing.*;
  */
 public class BackgroundPanel extends JPanel
 {
+	private static final long serialVersionUID = 8597534857587627706L;
 	public static final int SCALED = 0;
 	public static final int TILED = 1;
 	public static final int ACTUAL = 2;
