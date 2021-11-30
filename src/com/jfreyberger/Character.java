@@ -1,5 +1,7 @@
 package com.jfreyberger;
 
+import java.sql.Connection;
+
 public class Character {
 	private String faction;
 	private String role;
@@ -8,19 +10,15 @@ public class Character {
 	private String race;
 	
 	public Character() {
-		setFaction(CharRandomizer.rollFaction(Filter.isFacAlliance(), Filter.isFacHorde()));
-		setRace(CharRandomizer.rollRace(getFaction()));
-		setRole(CharRandomizer.rollRole());
-		setSpec(CharRandomizer.rollSpec(getRole(), getRace()));
-		setCharClass(CharRandomizer.rollClass(getSpec(), getRace()));
-
+		Connection conn = Database.Connect();
 		
-		while (getRace() == null) {
-			System.out.println("race not selected, trying again");
-			setRace(CharRandomizer.rollRace(getFaction()));
-			setSpec(CharRandomizer.rollSpec(getRole(), getRace()));
-			setCharClass(CharRandomizer.rollClass(getSpec(), getRace()));
-		}
+		setFaction(CharRandomizer.rollFaction(Filter.isFacAlliance(), Filter.isFacHorde()));
+		setRace(CharRandomizer.rollRace(conn, getFaction()));
+		setRole(CharRandomizer.rollRole());
+		setSpec(CharRandomizer.rollSpec(conn, getRole(), getRace()));
+		setCharClass(CharRandomizer.rollClass(conn, getSpec(), getRace()));
+
+		Database.closeConnection(conn);
 	}
 
 	public String getFaction() {

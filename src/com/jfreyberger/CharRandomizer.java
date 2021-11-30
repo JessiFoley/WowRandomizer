@@ -1,30 +1,21 @@
 package com.jfreyberger;
 
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class CharRandomizer {
 	
-	public static String rollRace(String faction) {
-		String[] raceList = null;
-		
-		raceList = Database.getRace(faction);
-		
-		if (raceList == null)
-			return null;
-		else if (raceList.length < 2)
-			return raceList[0];
-		else
-			return roll(raceList);
+	public static String rollRace(Connection conn, String faction) {
+		return roll(Database.getRaceList(conn, faction));
 	}
 	
-	public static String rollClass(String spec, String race) {
-		return Database.getClassBySpec(spec, race);
+	public static String rollClass(Connection conn, String spec, String race) {
+		return Database.getClassBySpec(conn, spec, race);
 	}
 	
-	public static String rollSpec(String role, String race) {
-		String[] specList = Database.getSpec(role, race);
-		
-		return roll(specList);
+	public static String rollSpec(Connection conn, String role, String race) {
+		return roll(Database.getSpec(conn, role, race));
 	}
 	
 	public static String rollFaction(Boolean alliance, Boolean horde) {
@@ -85,5 +76,11 @@ public class CharRandomizer {
 		Random rand = new Random();
 		
 		return list[rand.nextInt(list.length)];
+	}
+	
+	private static String roll(ArrayList<String> list) {
+		Random rand = new Random();
+		
+		return list.get(rand.nextInt(list.size()));
 	}
 }
