@@ -1,4 +1,4 @@
-package com.jfreyberger;
+package com.jfreyberger.utility;
 
 import java.awt.*;
 import javax.swing.*;

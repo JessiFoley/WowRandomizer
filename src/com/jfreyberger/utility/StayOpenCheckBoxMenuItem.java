@@ -1,4 +1,4 @@
-package com.jfreyberger;
+package com.jfreyberger.utility;
 
 import javax.swing.Action;
 import javax.swing.Icon;

@@ -1,4 +1,4 @@
-package com.jfreyberger;
+package com.jfreyberger.backend;
 
 import java.sql.Connection;
 

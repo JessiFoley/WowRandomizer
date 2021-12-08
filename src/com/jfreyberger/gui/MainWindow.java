@@ -1,4 +1,4 @@
-package com.jfreyberger;
+package com.jfreyberger.gui;
 
 import java.awt.EventQueue;
 
@@ -15,6 +15,10 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.event.ChangeListener;
+
+import com.jfreyberger.backend.Filter;
+import com.jfreyberger.utility.StayOpenCheckBoxMenuItem;
+
 import javax.swing.event.ChangeEvent;
 
 public class MainWindow {

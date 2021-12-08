@@ -1,4 +1,4 @@
-package com.jfreyberger;
+package com.jfreyberger.gui;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.border.EtchedBorder;
+
+import com.jfreyberger.utility.BackgroundPanel;
+import com.jfreyberger.utility.LoadingTask;
 
 public class MainPanel extends BackgroundPanel {
 
@@ -67,4 +70,19 @@ public class MainPanel extends BackgroundPanel {
 		add(btnGo, BorderLayout.SOUTH);
 	}
 
+	public JLabel getLblWelcome() {
+		return lblWelcome;
+	}
+
+	public JLabel getLblRace() {
+		return lblRace;
+	}
+
+	public JLabel getLblClass() {
+		return lblClass;
+	}
+
+	public JLabel getLblLogo() {
+		return lblLogo;
+	}
 }

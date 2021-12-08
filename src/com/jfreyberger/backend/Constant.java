@@ -1,4 +1,4 @@
-package com.jfreyberger;
+package com.jfreyberger.backend;
 
 final class Constant {
 	//url
