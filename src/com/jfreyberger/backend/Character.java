@@ -9,6 +9,7 @@ public class Character {
 	private String spec;
 	private String race;
 	
+	//instantiates a new object by using CharRandomizer to get information for the variables
 	public Character() {
 		Connection conn = Database.Connect();
 		
@@ -21,6 +22,7 @@ public class Character {
 		Database.closeConnection(conn);
 	}
 
+	//getters and setters for the variables
 	public String getFaction() {
 		return faction;
 	}

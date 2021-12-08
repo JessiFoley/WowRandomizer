@@ -19,14 +19,11 @@ import com.jfreyberger.utility.LoadingTask;
 
 public class MainPanel extends BackgroundPanel {
 
-	JLabel lblWelcome;
-	JLabel lblRace;
-	JLabel lblClass;
-	JLabel lblLogo;
+	private JLabel lblWelcome;
+	private JLabel lblRace;
+	private JLabel lblClass;
+	private JLabel lblLogo;
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4848455952266752904L;
 
 	/**
@@ -63,13 +60,12 @@ public class MainPanel extends BackgroundPanel {
 				JFrame mainWindow = (JFrame) SwingUtilities.getWindowAncestor(lblLogo);
 				
 				LoadingTask.runWorker(new LoadingTask(MainPanel.this, mainWindow));
-				
-				//Character character = LoadingTask.get();
 			}
 		});
 		add(btnGo, BorderLayout.SOUTH);
 	}
 
+	//getters for variables
 	public JLabel getLblWelcome() {
 		return lblWelcome;
 	}

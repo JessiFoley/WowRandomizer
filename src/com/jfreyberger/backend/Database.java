@@ -37,7 +37,11 @@ class Database {
 		}
 	}
 	
-	private static ArrayList<String> getDatabaseInfo(Connection conn, String statement) {
+	/*
+	 * uses statement to get information from the database
+	 * returns in a ArrayList<String> format
+	 */
+	private static ArrayList<String> getDatabaseInfoArrayList(Connection conn, String statement) {
 		ArrayList<String> info = new ArrayList<String>();
 		
 		try {
@@ -58,6 +62,38 @@ class Database {
 		return info;
 	}
 	
+	/*
+	 * uses statement to get information from the database
+	 * returns in a String[] format
+	 */
+	private static String[] getDatabaseInfo(Connection conn, String statement) {
+		String[] data = null;
+		
+		try {
+			PreparedStatement stmt;
+			
+			stmt = conn.prepareStatement(statement, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			rs.last();
+			data = new String [rs.getRow()];
+			rs.first();
+			
+			for(int i = 0; i < data.length; i++) {
+				data[i] = rs.getString(1);
+				rs.next();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return data;
+	}
+	
+	/*
+	 * Removes races that are not selected by the filters
+	 */
 	private static ArrayList<String> alliedAdjust (String faction, ArrayList<String> raceList) {
 		//Adds selected Alliance allied races
 		if (faction.equals("Alliance")) {
@@ -116,10 +152,13 @@ class Database {
 		return raceList;
 	}
 	
+	/*
+	 * Get the list of races from the database
+	 */
 	public static ArrayList<String> getRaceList(Connection conn, String faction) {
 		ArrayList<String> returnRace = null;
 		
-		returnRace = getDatabaseInfo(conn, "SELECT race FROM \"tfreyberger/WoWRandomizer\".\"racelist\" WHERE FACTION LIKE \'" + faction + "\'");
+		returnRace = getDatabaseInfoArrayList(conn, "SELECT race FROM \"tfreyberger/WoWRandomizer\".\"racelist\" WHERE FACTION LIKE \'" + faction + "\'");
 		
 		returnRace = alliedAdjust(faction, returnRace);
 		
@@ -130,30 +169,10 @@ class Database {
 	 * Gets the spec list from the database based on race
 	 */
 	public static String[] getSpec(Connection conn, String role, String race) {
-		String[] specList = null;
-		
 		race = race.replace(' ', '_');
 		race = race.replace("\'", "");
-		try {
-			PreparedStatement stmt;
-			
-			stmt = conn.prepareStatement("SELECT spec FROM \"tfreyberger/WoWRandomizer\".\"classlist\" WHERE role LIKE \'" + role + "\' AND " + race + " = TRUE", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			
-			ResultSet rs = stmt.executeQuery();
-			
-			rs.last();
-			specList = new String [rs.getRow()];
-			rs.first();
-			
-			for(int i = 0; i < specList.length; i++) {
-				specList[i] = rs.getString(1);
-				rs.next();
-			}
-		} catch (SQLException e) {
-			throw new Error("Problem: Spec", e);
-		}
 		
-		return specList;
+		return getDatabaseInfo(conn, "SELECT spec FROM \"tfreyberger/WoWRandomizer\".\"classlist\" WHERE role LIKE \'" + role + "\' AND " + race + " = TRUE");
 	}
 	
 	/*
@@ -164,24 +183,8 @@ class Database {
 		
 		race = race.replace(' ', '_');
 		race = race.replace("\'", "");
-		try {
-			PreparedStatement stmt;
-			
-			stmt = conn.prepareStatement("SELECT class FROM \"tfreyberger/WoWRandomizer\".\"classlist\" WHERE spec LIKE \'" + spec + "\' AND " + race + " = TRUE", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			
-			ResultSet rs = stmt.executeQuery();
-			
-			rs.last();
-			classList = new String [rs.getRow()];
-			rs.first();
-			
-			for(int i = 0; i < classList.length; i++) {
-				classList[i] = rs.getString(1);
-				rs.next();
-			}
-		} catch (SQLException e) {
-			throw new Error("Problem: Class", e);
-		}
+		
+		classList = getDatabaseInfo(conn, "SELECT class FROM \"tfreyberger/WoWRandomizer\".\"classlist\" WHERE spec LIKE \'" + spec + "\' AND " + race + " = TRUE");
 		
 		if (classList.length > 1) {
 			Random rand = new Random();
